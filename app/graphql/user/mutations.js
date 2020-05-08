@@ -24,15 +24,13 @@ const UserMutation = {
       id: { type: GraphQLID },
       firstName: { type: GraphQLString },
       lastName: { type: GraphQLString },
-      password: { type: GraphQLString },
+      userName: { type: GraphQLString },
       email: { type: GraphQLString },
     },
-    resolve: async (parent, args) => {
-      let user = await User.findOneAndUpdate(
-        { firstName: args.firstName },
-        args,
-        { new: true }
-      );
+    resolve: async (parent, args, context) => {
+      let user = await User.findOneAndUpdate({ _id: context.user.id }, args, {
+        new: true,
+      });
       return user;
     },
   },

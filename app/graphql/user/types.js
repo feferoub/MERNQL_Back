@@ -11,7 +11,7 @@ const UserType = new GraphQLObjectType({
     firstName: { type: GraphQLString },
     lastName: { type: GraphQLString },
     userName: { type: GraphQLString },
-    genre: { type: GraphQLString },
+    email: { type: GraphQLString },
     comments: {
       type: CommentType,
       resolve(parent, args) {
