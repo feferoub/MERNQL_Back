@@ -11,6 +11,7 @@ const UserMutation = {
       genre: { type: GraphQLString },
       password: { type: GraphQLString },
       userName: { type: GraphQLString },
+      email: { type: GraphQLString },
     },
     resolve: async (parent, args) => {
       let token = await User.signup(args);
@@ -24,6 +25,7 @@ const UserMutation = {
       firstName: { type: GraphQLString },
       lastName: { type: GraphQLString },
       password: { type: GraphQLString },
+      email: { type: GraphQLString },
     },
     resolve: async (parent, args) => {
       let user = await User.findOneAndUpdate(

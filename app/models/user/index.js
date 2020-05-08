@@ -9,8 +9,8 @@ const userSchema = mongoose.Schema(
       type: String,
       // lowercase: true,
       trim: true,
-      // unique: true,
-      // required: true,
+      unique: true,
+      required: true,
     },
     password: {
       type: String,
@@ -42,8 +42,11 @@ userSchema.statics = {
       expiresIn: "1y",
     });
   },
-  login: async function ({ userName, password }) {
-    const user = await this.findOne({ userName });
+  login: async function ({ userName, password, email }) {
+    var user = await this.findOne({ userName });
+    if (!user) {
+      user = await this.findOne({ email });
+    }
     if (!user) {
       throw new Error("No user with that userName");
     }

@@ -15,6 +15,8 @@ const UserQuery = {
       id: { type: GraphQLID },
       firstName: { type: GraphQLString },
       lastName: { type: GraphQLString },
+      userName: { type: GraphQLString },
+      email: { type: GraphQLString },
     },
     resolve: async (parent, args, context) => {
       if (_.isEmpty(args)) {
@@ -24,11 +26,31 @@ const UserQuery = {
       return user;
     },
   },
+  checkIfUserExists: {
+    type: GraphQLString,
+    args: {
+      userName: { type: GraphQLString },
+      email: { type: GraphQLString },
+    },
+    resolve: async (parent, args) => {
+      const user = await User.findOne(args);
+      if (!user) {
+        return "none";
+      }
+      if (user.userName === args.userName) {
+        return "userName";
+      }
+      if (user.email === args.email) {
+        return "email";
+      }
+    },
+  },
   login: {
     type: GraphQLString,
     args: {
       password: { type: GraphQLString, required: true },
       userName: { type: GraphQLString },
+      email: { type: GraphQLString },
     },
     resolve: async (parent, args, context) => {
       let token = await User.login(args);
@@ -40,6 +62,7 @@ const UserQuery = {
     args: {
       firstName: { type: GraphQLString },
       lastName: { type: GraphQLString },
+      email: { type: GraphQLString },
     },
     resolve(parent, args, context) {
       return User.find(args);
